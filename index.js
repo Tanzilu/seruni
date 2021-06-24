@@ -23,6 +23,4 @@ app.post("/seruni", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`listening at http://localhost:${port}`);
-});
+app.listen(port, '0.0.0.0');

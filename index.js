@@ -7,20 +7,32 @@ const port = 8000;
 app.use(bodyParser.json());
 
 app.post("/seruni", async (req, res) => {
-  axios.defaults.headers.common["Authorization"] = "";
   try {
     if (req.body.token) {
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${req.body.token}`;
-    }
-    console.log(axios.defaults.headers.common["Authorization"]);
-    if (req.body.method == "post") {
-      const response = await axios.post(req.body.url, req.body.request);
-      res.send(response.data);
+      let axiosConfig = {
+        headers: {
+          Authorization: `Bearer ${req.body.token}`,
+        },
+      };
+      if (req.body.method == "post") {
+        const response = await axios.post(
+          req.body.url,
+          req.body.request,
+          axiosConfig
+        );
+        res.send(response.data);
+      } else {
+        const response = await axios.get(req.body.url, axiosConfig);
+        res.send(response.data);
+      }
     } else {
-      const response = await axios.get(req.body.url);
-      res.send(response.data);
+      if (req.body.method == "post") {
+        const response = await axios.post(req.body.url, req.body.request);
+        res.send(response.data);
+      } else {
+        const response = await axios.get(req.body.url);
+        res.send(response.data);
+      }
     }
   } catch (error) {
     console.log(error);

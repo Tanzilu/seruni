@@ -35,7 +35,7 @@ app.post("/seruni", async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
+    res.send(error)
   }
 });
 

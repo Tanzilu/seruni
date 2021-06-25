@@ -47,7 +47,7 @@ app.post("/login", async (req, res) => {
     console.log(response);
     let axiosConfig = {
       headers: {
-        Date: new Date().toLocaleString(),
+        Date: new Date().toUTCString(),
         "Content-Type": "application/json",
         Authorization: `Bearer ${response.data.token}`,
       },

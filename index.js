@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const axios = require("axios");
 const { response } = require("express");
-const cryptoJs = require("crypto-js")
+const cryptoJs = require("crypto-js");
 const app = express();
 const port = 8000;
 
@@ -43,27 +43,25 @@ app.post("/seruni", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   try {
-   
-    const response = await axios.get(
-      req.body.url,
-    );
-    console.log(response)
+    const response = await axios.get(req.body.url);
+    console.log(response);
     let axiosConfig = {
       headers: {
+        Date: Date.now(),
         "Content-Type": "application/json",
         Authorization: `Bearer ${response.data.token}`,
       },
     };
-    let result = req.body.request.username.concat(req.body.request.password)
-    result = cryptoJs.MD5(result).toString()
-    result = response.data.token.concat(result)
-    result = cryptoJs.MD5(result).toString().toUpperCase()
+    let result = req.body.request.username.concat(req.body.request.password);
+    result = cryptoJs.MD5(result).toString();
+    result = response.data.token.concat(result);
+    result = cryptoJs.MD5(result).toString().toUpperCase();
     let request = {
-      "username": req.body.request.username,
-      "password": result
-    }
+      username: req.body.request.username,
+      password: result,
+    };
 
-    const login = await axios.post(req.body.url, request, axiosConfig)
+    const login = await axios.post(req.body.url, request, axiosConfig);
 
     res.send(login.data);
   } catch (error) {

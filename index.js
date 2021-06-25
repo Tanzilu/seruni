@@ -1,6 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const axios = require("axios");
+const { response } = require("express");
+const cryptoJs = require("crypto-js")
 const app = express();
 const port = 8000;
 
@@ -35,7 +37,39 @@ app.post("/seruni", async (req, res) => {
       }
     }
   } catch (error) {
-    res.send(error)
+    res.send(error);
+  }
+});
+
+app.post("/login", async (req, res) => {
+  try {
+   
+    const response = await axios.get(
+      req.body.url,
+    );
+    let axiosConfig = {
+      headers: {
+        Authorization: `Bearer ${response.data.token}`,
+      },
+    };
+    let result = req.body.request.username.concat(req.body.request.password)
+
+    result = cryptoJs.MD5(result).toString()
+
+    result = response.data.token.concat(result)
+
+    result = cryptoJs.MD5(result).toString().toUpperCase()
+
+    let request = {
+      "username": req.body.request.username,
+      "password": result
+    }
+
+    const login = await axios.post(req.body.url, request, axiosConfig)
+
+    res.send(login.data);
+  } catch (error) {
+    res.send(error);
   }
 });
 

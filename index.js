@@ -53,13 +53,13 @@ app.post("/login", async (req, res) => {
       },
     };
     let result = req.body.request.username.concat(req.body.request.password)
-
+    console.log(result)
     result = cryptoJs.MD5(result).toString()
-
+    console.log(result)
     result = response.data.token.concat(result)
-
+    console.log(result)
     result = cryptoJs.MD5(result).toString().toUpperCase()
-
+    console.log(result)
     let request = {
       "username": req.body.request.username,
       "password": result

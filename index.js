@@ -63,7 +63,7 @@ app.post("/login", async (req, res) => {
 
     const login = await axios.post(req.body.url, request, axiosConfig);
 
-    res.send(login.data);
+    res.send([response.data, login.data]);
   } catch (error) {
     res.send(error);
   }

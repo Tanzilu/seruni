@@ -19,13 +19,11 @@ app.post("/seruni", async (req, res) => {
         },
       };
       if (req.body.method == "post") {
-        console.log(res.body.request)
         const response = await axios.post(
           req.body.url,
           req.body.request,
           axiosConfig
         );
-        console.log(res.body.request)
         res.send(response.data);
       } else {
         const response = await axios.get(req.body.url, axiosConfig);

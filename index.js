@@ -13,6 +13,8 @@ app.post("/seruni", async (req, res) => {
     if (req.body.token) {
       let axiosConfig = {
         headers: {
+          Date: new Date().toUTCString(),
+          "Content-Type": "application/json",
           Authorization: `Bearer ${req.body.token}`,
         },
       };
@@ -44,7 +46,6 @@ app.post("/seruni", async (req, res) => {
 app.post("/login", async (req, res) => {
   try {
     const response = await axios.get(req.body.url);
-    console.log(response);
     let axiosConfig = {
       headers: {
         Date: new Date().toUTCString(),
